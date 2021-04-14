@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 class Main extends Component {
   render() {
     const { books, booksLoaded, handleShelfChange } = this.props;
-    console.log(books);
     return (
       <div className="list-books">
         <div className="list-books-title">

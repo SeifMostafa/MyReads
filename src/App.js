@@ -33,8 +33,8 @@ class BooksApp extends React.Component {
           path="/"
           render={(props) => (
             <Main
-              books={this.state.books}
-              booksLoaded={this.state.booksLoaded}
+              books={books}
+              booksLoaded={booksLoaded}
               handleShelfChange={this.handleShelfChange}
             />
           )}
@@ -44,8 +44,8 @@ class BooksApp extends React.Component {
           path="/home"
           render={(props) => (
             <Main
-              books={this.state.books}
-              booksLoaded={this.state.booksLoaded}
+              books={books}
+              booksLoaded={booksLoaded}
               handleShelfChange={this.handleShelfChange}
             />
           )}
@@ -53,7 +53,10 @@ class BooksApp extends React.Component {
         <Route
           path="/search"
           render={(props) => (
-            <Search handleShelfChange={this.handleShelfChange} />
+            <Search
+              handleShelfChange={this.handleShelfChange}
+              booksFromLib={books}
+            />
           )}
         />
       </Switch>

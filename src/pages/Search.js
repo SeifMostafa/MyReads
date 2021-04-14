@@ -7,19 +7,40 @@ class Search extends Component {
   state = {
     books: [],
   };
-  handleSearchBook = (event) => {
-    search(event.target.value)
+  handleSearchBook = async (event) => {
+    await search(event.target.value)
       .then((response) => {
         if (typeof response === "object" && "error" in response) {
           this.setState({ books: [] });
         }
-        this.setState({ books: response });
+        this.setState({
+          books: response,
+        });
       })
       .catch((err) => console.error(err.message));
   };
   render() {
     const { handleShelfChange } = this.props;
-    const {books} = this.state;
+    const { books } = this.state;
+    const { booksFromLib } = this.props;
+    var FinalArray = [];
+
+    for (var i = 0; i < books.length; i++) {
+      var changed = false;
+      for (var j = 0; j < booksFromLib.length; j++) {
+        if (books[i].id === booksFromLib[j].id) {
+          FinalArray.push(booksFromLib[j]);
+          changed = true;
+          break;
+        }
+      }
+      if (!changed) {
+          const updatedBook = books[i];
+          updatedBook.shelf= "none"
+        FinalArray.push(updatedBook);
+      }
+    }
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -37,13 +58,16 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {books && books.length >0 && books.map((book) => (
-              <Book
-                key={book.id}
-                BookInfo={book}
-                handleShelfChange={handleShelfChange}
-              />
-            ))}
+            {FinalArray &&
+              FinalArray.length > 0 &&
+              FinalArray.map((book) => (
+                <Book
+                  key={book.id}
+                  BookInfo={book}
+                  handleShelfChange={handleShelfChange}
+                  shelf={book.shelf}
+                />
+              ))}
           </ol>
         </div>
       </div>
