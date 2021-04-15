@@ -24,23 +24,23 @@ class Search extends Component {
     const { books } = this.state;
     const { booksFromLib } = this.props;
     var FinalArray = [];
-
-    for (var i = 0; i < books.length; i++) {
-      var changed = false;
-      for (var j = 0; j < booksFromLib.length; j++) {
-        if (books[i].id === booksFromLib[j].id) {
-          FinalArray.push(booksFromLib[j]);
-          changed = true;
-          break;
+    if (books && books.length) {
+      for (var i = 0; i < books.length; i++) {
+        var changed = false;
+        for (var j = 0; j < booksFromLib.length; j++) {
+          if (books[i].id === booksFromLib[j].id) {
+            FinalArray.push(booksFromLib[j]);
+            changed = true;
+            break;
+          }
+        }
+        if (!changed) {
+          const updatedBook = books[i];
+          updatedBook.shelf = "none";
+          FinalArray.push(updatedBook);
         }
       }
-      if (!changed) {
-          const updatedBook = books[i];
-          updatedBook.shelf= "none"
-        FinalArray.push(updatedBook);
-      }
     }
-
     return (
       <div className="search-books">
         <div className="search-books-bar">
